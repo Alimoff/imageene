@@ -58,21 +58,19 @@ export const deleteOneImage = async (req:Request,res:Response) =>{
 };
 //Method PUT
 //Update an image
-export const updateOneImage = async (req:Request,res:Response) =>{
-    const {id} = req.params;
-    const {title,image_url,description} = req.body;
-    try{
-        const updateImage = await ImageeneModel.findOneAndUpdate({_id:id},{
-            title,image_url,description
-        },
-        {new:true});
-        res.status(200).json({status:"200 ok", msg:"Image updated successfully"});
-        if(!updateImage){
-            res.status(404).json("Image not found");
-        }else{
-            res.json(updateImage);
-        }
-    }catch(error){
-        res.status(500).json({msg:error});
+export const updateImage = async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const { name } = req.body;
+  
+      const image = await ImageeneModel.findByIdAndUpdate(id, { name }, { new: true });
+      if (!image) {
+        res.status(404).json({ message: 'Image not found' });
+        return;
+      }
+      res.json(image);
+    } catch (error) {
+      res.status(500).json({ message: 'Internal server error' });
     }
-};
+  };
+  
