@@ -2,7 +2,7 @@ import express, { Application } from 'express'
 import cors from 'cors'
 import cokierPreser from 'cookie-parser'
 import morgan from 'morgan'
-// import { router } from './routes'
+import { router } from './routes'
 
 const app: Application = express()
 //Middleware
@@ -11,7 +11,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(morgan('dev'))
 //registretion router
-// app.use(router)
+app.use(router)
 //regiteriation cokies
 app.use(cokierPreser())
 

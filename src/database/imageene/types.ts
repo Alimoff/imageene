@@ -1,10 +1,10 @@
 import { Document, ObjectId } from "mongoose";
 
-export interface IIMageene {
+export interface IImageene {
     _id:ObjectId | string;
-    title:string;
-    image_url:string;
-    description:string;
+    name:string,
+    filename:string,
+    path:string
 }
 
-export type ImageeneDocument = Document & IIMageene;
+export type ImageeneDocument = Document & IImageene;

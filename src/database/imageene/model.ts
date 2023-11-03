@@ -1,19 +1,19 @@
 import {model,Schema,SchemaTypes} from 'mongoose';
-import { IIMageene } from './types';
+import { IImageene } from './types';
 
-const imageeneSchema = new Schema<Partial<IIMageene>>(
+const imageeneSchema = new Schema<Partial<IImageene>>(
     {
-        title:{
+        name:{
         type:String,
-        requred:false
+        requred:true
             },
-        image_url:{
+        filename:{
             type:String,
             required:true
         },
-        description:{
+        path:{
             type:String,
-            required:false
+            required:true
         }
 }
 );
