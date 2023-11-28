@@ -28,9 +28,9 @@ export const getOneImage = async(req:Request,res:Response) => {
 export const createImage = async (req: Request, res: Response) => {
     try {
       const { name } = req.body;
-      const { filename, path } = req.file;
+      const { path } = req.file;
   
-      const image = new ImageeneModel({ name, filename, path });
+      const image = new ImageeneModel({ name, path });
       await image.save();
 
       console.log(image)
