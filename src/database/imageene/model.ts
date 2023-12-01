@@ -11,6 +11,10 @@ const imageeneSchema = new Schema<Partial<IImageene>>(
             type:String,
             required:true
         },
+        userId:{
+            type:String,
+            required:true
+        }
 }
 );
 

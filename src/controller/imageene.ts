@@ -37,15 +37,22 @@ interface AuthenticatedRequest extends Request {
 
 export const createImage = async (req:AuthenticatedRequest & {user:any}, res: Response) => {
   try {
+     const userId = req.body.userId
+     console.log(userId);
+
       const { name } = req.body;
       const { path } = req.file;
-  
-      const image = new ImageeneModel({ name, path});
-      await image.save();
 
-      console.log(image)
-  
-      res.json(image);
+      const user = await UserModel.findById(userId)
+      
+      if (!user){
+        return res.status(404).json({message:'User not found'});
+      }
+      else{
+      const image = new ImageeneModel({ name, path,userId});
+      await image.save();
+      return res.status(200).json({image,message:"Image uploaded succesfully"})
+      }
     } catch (error) {
       res.status(500).json({ message: 'Internal server error' });
     }
