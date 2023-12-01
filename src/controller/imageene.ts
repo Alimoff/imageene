@@ -55,13 +55,13 @@ export const createImage = async (req:AuthenticatedRequest & {user:any}, res: Re
 export const deleteOneImage = async (req:Request,res:Response) =>{
     const {id} = req.params;
     try{
-        const deleteImage = await ImageeneModel.findByIdAndDelete({_id:id});
-        res.status(200).json({status:"200 ok", msg:"Image deleted successfully"});
-        if(!deleteImage){
-            res.status(404).json({error:"Image not found"});
-        }else{
-            res.json(deleteImage);
-        }
+        const deleteImage = await ImageeneModel.findOneAndDelete({_id:id});
+       return  res.status(200).json({status:"200 ok", msg:"Image deleted successfully"});
+        // if(!deleteImage){
+        //     return res.status(404).json({error:"Image not found"});
+        // }else{
+        //     return res.json(deleteImage);
+        // }
     }catch(error){
         res.json({msg:error})
     }
