@@ -7,14 +7,10 @@ const imageeneSchema = new Schema<Partial<IImageene>>(
         type:String,
         requred:true
             },
-        filename:{
-            type:String,
-            required:true
-        },
         path:{
             type:String,
             required:true
-        }
+        },
 }
 );
 

@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import { User } from '../database/authModel'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
+import { UserModel } from '../database/users/model'
 //Method POST
 // Register new user
 export const registerNewUser = async (req: Request, res: Response) => {
@@ -19,6 +20,7 @@ export const registerNewUser = async (req: Request, res: Response) => {
       password: hashPassword,
     })
     // //save mongoDB
+    const addUser = new UserModel(newUser);
     await newUser.save()
     //Then create jsonwebtoken to authentication
     const accessToken = createAccessToken({ id: newUser._id })
@@ -88,3 +90,13 @@ const createAccessToken = (user: any): string => {
 const createRefreshToken = (user: any): string => {
   return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET!, { expiresIn: '7d' })
 } 
+//Method GET
+//All Registered Users
+export const getAllUsers = async(req:Request, res:Response) => {
+    try{
+      const user:any = await UserModel.find();
+      res.status(200).json({status:"200 ok", user});
+    }catch(error){
+      res.status(400).json({msg:error});
+    }
+}

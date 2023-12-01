@@ -1,5 +1,6 @@
 import {Request,Response} from "express";
 import { ImageeneModel } from "../database/imageene/model";
+import { UserModel } from "../database/users/model";
 //Method GET
 //get all images
 export const getAllImages = async(req:Request,res:Response) => {
@@ -25,12 +26,21 @@ export const getOneImage = async(req:Request,res:Response) => {
     }};
 //Method POST
 //Add new image
-export const createImage = async (req: Request, res: Response) => {
-    try {
+
+interface AuthenticatedRequest extends Request {
+  user: {
+    email: string;
+  };
+  name:string,
+  path:string
+}
+
+export const createImage = async (req:AuthenticatedRequest & {user:any}, res: Response) => {
+  try {
       const { name } = req.body;
       const { path } = req.file;
   
-      const image = new ImageeneModel({ name, path });
+      const image = new ImageeneModel({ name, path});
       await image.save();
 
       console.log(image)
