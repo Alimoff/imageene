@@ -12,6 +12,8 @@ app.use(express.urlencoded({ extended: true }))
 app.use(morgan('dev'))
 //registretion router
 app.use(router)
+
+app.use("../static",express.static('static'));
 //regiteriation cokies
 app.use(cokierPreser())
 
