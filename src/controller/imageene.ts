@@ -6,7 +6,7 @@ import { ImageModel } from "../database/imageModel";
 //get all images
 export const getAllImages = async(req:Request,res:Response) => {
     try{
-    const data = await ImageeneModel.find();
+    const data = await ImageModel.find();
     res.status(200).json({status:"200 ok", data});
 }catch(error){
     res.json({msg:error});
@@ -16,7 +16,7 @@ export const getAllImages = async(req:Request,res:Response) => {
 export const getOneImage = async(req:Request,res:Response) => {
     const {id} = req.params;
     try{
-    const data = await ImageeneModel.findById({_id:id});
+    const data = await ImageModel.findById({_id:id});
     res.status(200).json({status:"200 ok", data});
     if(!data){
         res.status(404).json({error:"Image not found"});
