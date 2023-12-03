@@ -1,6 +1,7 @@
 import {Request,Response} from "express";
 import { ImageeneModel } from "../database/imageene/model";
 import { UserModel } from "../database/users/model";
+import { ImageModel } from "../database/imageModel";
 //Method GET
 //get all images
 export const getAllImages = async(req:Request,res:Response) => {
@@ -31,32 +32,36 @@ interface AuthenticatedRequest extends Request {
   user: {
     email: string;
   };
-  name:string,
-  path:string
+  // name:string,
+  // image:{
+  //   data:Buffer,
+  //   contentType:string
+  // }
 }
 
-export const createImage = async (req:AuthenticatedRequest & {user:any}, res: Response) => {
-  try {
-     const userId = req.body.userId
-     console.log(userId);
+// export const createImage = async (req:AuthenticatedRequest & {user:any}, res: Response) => {
+//   try {
+//      const userId = req.body.userId
+//       const { name } = req.body.name;
+//       const {image} = req.file?.filename;
 
-      const { name } = req.body;
-      const { path } = req.file;
-
-      const user = await UserModel.findById(userId)
+//       const user = await UserModel.findById(userId)
       
-      if (!user){
-        return res.status(404).json({message:'User not found'});
-      }
-      else{
-      const image = new ImageeneModel({ name, path,userId});
-      await image.save();
-      return res.status(200).json({image,message:"Image uploaded succesfully"})
-      }
-    } catch (error) {
-      res.status(500).json({ message: 'Internal server error' });
-    }
-  };
+//       if (!user){
+//         return res.status(404).json({message:'User not found'});
+//       }
+//       else{
+//       const newImage = new ImageModel({ 
+//       name,
+//       image:{data:image.file.filename,contentType:'image/png'}
+//       ,userId});
+//       await newImage.save();
+//       return res.status(200).json({message:"Image uploaded succesfully"})
+//       }
+//     } catch (error) {
+//       res.status(500).json({ message: 'Internal server error' });
+//     }
+//   };
 //Method DELETE
 //Delete an image
 export const deleteOneImage = async (req:Request,res:Response) =>{
