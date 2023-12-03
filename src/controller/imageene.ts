@@ -3,6 +3,7 @@ import { ImageeneModel } from "../database/imageene/model";
 import { UserModel } from "../database/users/model";
 import { ImageModel } from "../database/imageModel";
 import { upload } from "../middlewares/upload";
+import imageType from "image-type";
 //Method GET
 //get all images
 export const getAllImages = async(req:Request,res:Response) => {
@@ -45,6 +46,7 @@ export const createImage = async(req:Request,res:Response)=>{
         newImage.save()
         .then(()=> res.send("Image created succesfully"))
         .catch(err =>res.send(err));
+
       }
     })
   }catch(error){

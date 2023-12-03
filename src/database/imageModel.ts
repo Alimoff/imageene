@@ -7,7 +7,8 @@ const ImageSchema = new Schema({
     },
     image: {
         data: Buffer,
-        contentType: String
+        contentType: String,
+        enum: ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'],
     },
     userId:{
         type:String,
