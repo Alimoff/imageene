@@ -1,10 +1,5 @@
 import {Router} from 'express';
 import {Imageene} from "../controller/";
-// import {upload} from "../middlewares/upload"
-import multer from 'multer';
-import { ImageModel } from '../database/imageModel';
-
-// const upload = multer({dest:'static/'});
 
 const imageeneRouter = Router();
 
