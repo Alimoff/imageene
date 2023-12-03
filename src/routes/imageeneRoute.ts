@@ -7,7 +7,7 @@ import { ImageModel } from '../database/imageModel';
 // const upload = multer({dest:'static/'});
 
 const Storage = multer.diskStorage({
-    destination:'../static',
+    destination:'static',
     filename:(req,file,cb) =>{
         cb(null,file.originalname);
     }
