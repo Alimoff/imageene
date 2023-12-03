@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { User } from '../database/authModel'
 import jwt from 'jsonwebtoken'
-import bcrypt from 'bcrypt'
+const bcrypt = require('bcryptjs');
 import { UserModel } from '../database/users/model'
 //Method POST
 // Register new user
