@@ -2,6 +2,7 @@ import {Request,Response} from "express";
 import { ImageeneModel } from "../database/imageene/model";
 import { UserModel } from "../database/users/model";
 import { ImageModel } from "../database/imageModel";
+import { upload } from "../middlewares/upload";
 //Method GET
 //get all images
 export const getAllImages = async(req:Request,res:Response) => {
@@ -27,47 +28,35 @@ export const getOneImage = async(req:Request,res:Response) => {
     }};
 //Method POST
 //Add new image
-
-interface AuthenticatedRequest extends Request {
-  user: {
-    email: string;
-  };
-  // name:string,
-  // image:{
-  //   data:Buffer,
-  //   contentType:string
-  // }
+export const createImage = async(req:Request,res:Response)=>{
+  try{
+    upload(req,res, (err)=>{
+      if(err){
+        res.send(err);
+      }else{
+        const newImage = new ImageModel({
+          name:req.body.name,
+          image:{
+            data:req.file?.filename,
+            contentType:'image/png'
+          },
+          userId:req.body.userId
+        })
+        newImage.save()
+        .then(()=> res.send("Image created succesfully"))
+        .catch(err =>res.send(err));
+      }
+    })
+  }catch(error){
+    res.send(error)
+  }
 }
-
-// export const createImage = async (req:AuthenticatedRequest & {user:any}, res: Response) => {
-//   try {
-//      const userId = req.body.userId
-//       const { name } = req.body.name;
-//       const {image} = req.file?.filename;
-
-//       const user = await UserModel.findById(userId)
-      
-//       if (!user){
-//         return res.status(404).json({message:'User not found'});
-//       }
-//       else{
-//       const newImage = new ImageModel({ 
-//       name,
-//       image:{data:image.file.filename,contentType:'image/png'}
-//       ,userId});
-//       await newImage.save();
-//       return res.status(200).json({message:"Image uploaded succesfully"})
-//       }
-//     } catch (error) {
-//       res.status(500).json({ message: 'Internal server error' });
-//     }
-//   };
 //Method DELETE
 //Delete an image
 export const deleteOneImage = async (req:Request,res:Response) =>{
     const {id} = req.params;
     try{
-        const deleteImage = await ImageeneModel.findOneAndDelete({_id:id});
+        const deleteImage = await ImageModel.findOneAndDelete({_id:id});
        return  res.status(200).json({status:"200 ok", msg:"Image deleted successfully"});
         // if(!deleteImage){
         //     return res.status(404).json({error:"Image not found"});
@@ -85,7 +74,7 @@ export const updateImage = async (req: Request, res: Response) => {
       const { id } = req.params;
       const { name } = req.body;
   
-      const image = await ImageeneModel.findByIdAndUpdate(id, { name }, { new: true });
+      const image = await ImageModel.findByIdAndUpdate(id, { name }, { new: true });
       if (!image) {
         res.status(404).json({ message: 'Image not found' });
         return;
