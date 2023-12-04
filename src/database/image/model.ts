@@ -1,6 +1,7 @@
 import { model, Schema } from 'mongoose'
+import { IImage } from './types'
 
-const ImageSchema = new Schema({
+const ImageSchema = new Schema<Partial<IImage>>({
     name: {
         type: String,
         required: true

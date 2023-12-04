@@ -1,5 +1,4 @@
 import {Request,Response} from "express";
-import { ImageeneModel } from "../database/imageene/model";
 import { UserModel } from "../database/users/model";
 import { ImageModel } from "../database/imageModel";
 import { upload } from "../middlewares/upload";
@@ -19,12 +18,9 @@ export const getOneImage = async(req:Request,res:Response) => {
     const {id} = req.params;
     try{
     const data = await ImageModel.findById({_id:id});
-    res.status(200).json({status:"200 ok", data});
-    if(!data){
-        res.status(404).json({error:"Image not found"});
-    }else{
-        res.json(data);
-    }}catch(error){
+   return  res.status(200).json({status:"200 ok", data});
+  
+    }catch(error){
         res.json({msg:error});
     }};
 //Method POST
@@ -39,7 +35,7 @@ export const createImage = async(req:Request,res:Response)=>{
           name:req.body.name,
           image:{
             data:req.file?.filename,
-            contentType:'image/png'
+
           },
           userId:req.body.userId
         })
@@ -86,4 +82,3 @@ export const updateImage = async (req: Request, res: Response) => {
       res.status(500).json({ message: 'Internal server error' });
     }
   };
-  
