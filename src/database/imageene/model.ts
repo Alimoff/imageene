@@ -18,4 +18,3 @@ const ImageSchema = new Schema<Partial<IImage>>({
 })
 
 export const ImageModel = model('Image', ImageSchema)
-

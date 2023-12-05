@@ -12,10 +12,8 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(morgan('dev'))
 //registretion router
-app.use(router)
-
-// app.use("../static",express.static('static'));
-app.use(express.static(path.join(__dirname, "../../",'/static')));
+app.use(router) 
+app.use('..//static', express.static(path.join(__dirname, 'static')));
 //regiteriation cokies
 app.use(cokierPreser())
 

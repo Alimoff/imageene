@@ -18,9 +18,12 @@ export const getOneImage = async(req:Request,res:Response) => {
     const {id} = req.params;
     try{
     const data = await ImageModel.findById({_id:id});
-   return  res.status(200).json({status:"200 ok", data});
-  
-    }catch(error){
+    res.status(200).json({status:"200 ok", data});
+    if(!data){
+        res.status(404).json({error:"Image not found"});
+    }else{
+        res.json(data);
+    }}catch(error){
         res.json({msg:error});
     }};
 //Method POST
@@ -82,3 +85,4 @@ export const updateImage = async (req: Request, res: Response) => {
       res.status(500).json({ message: 'Internal server error' });
     }
   };
+  

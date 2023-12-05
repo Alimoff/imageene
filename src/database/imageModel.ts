@@ -17,4 +17,3 @@ const ImageSchema = new Schema({
 })
 
 export const ImageModel = model('Image', ImageSchema)
-
