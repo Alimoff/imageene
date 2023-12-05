@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(morgan('dev'))
 //registretion router
 app.use(router) 
-app.use('/static', express.static(path.join(__dirname, '../static')));
+app.use('/static', express.static(path.join(__dirname, '../', '/static')));
 
 // //Multer error file handling
 // app.use((err,req,res,next) =>{

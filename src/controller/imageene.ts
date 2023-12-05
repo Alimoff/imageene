@@ -84,7 +84,6 @@ export const updateImage = async (req: Request, res: Response) => {
   };
   
 
-
   export const getImage = async (req:Request,res:Response) =>{
     try{
     const {imageName} = req.params;
