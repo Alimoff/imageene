@@ -1,8 +1,8 @@
 import {Request,Response} from "express";
 import { UserModel } from "../database/users/model";
 import { ImageModel } from "../database/imageModel";
-import { upload } from "../middlewares/upload";
 import imageType from "image-type";
+import path from "path";
 //Method GET
 //get all images
 export const getAllImages = async(req:Request,res:Response) => {
@@ -29,27 +29,24 @@ export const getOneImage = async(req:Request,res:Response) => {
 //Method POST
 //Add new image
 export const createImage = async(req:Request,res:Response)=>{
-  try{
-    upload(req,res, (err)=>{
-      if(err){
-        res.send(err);
-      }else{
-        const newImage = new ImageModel({
-          name:req.body.name,
-          image:{
-            data:req.file?.filename,
+ 
+   const {name,userId} = req.body;
+   let image = "";
+   if(req.file) image = `../static/${req.file.fieldname}`
 
-          },
-          userId:req.body.userId
-        })
-        newImage.save()
-        .then(()=> res.send("Image created succesfully"))
-        .catch(err =>res.send(err));
-
-      }
+   try{
+    const newImage = new ImageModel({
+      name,userId,image
     })
+    await newImage.save();
+    return res.status(200).json({
+      code:200,message:"Image created successfully",
+      data:newImage,
+    });
   }catch(error){
-    res.send(error)
+    res.status(501).json({
+      code:501,message:error.message,error:true
+    })
   }
 }
 //Method DELETE
