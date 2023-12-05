@@ -32,7 +32,7 @@ export const createImage = async(req:Request,res:Response)=>{
  
    const {name,userId} = req.body;
    let image = "";
-   if(req.file) image = `../static/${req.file.fieldname}`
+   if(req.file) image = `../static/${req.file.filename}`
 
    try{
     const newImage = new ImageModel({
@@ -83,3 +83,16 @@ export const updateImage = async (req: Request, res: Response) => {
     }
   };
   
+
+
+  export const getImage = async (req:Request,res:Response) =>{
+    try{
+    const {imageName} = req.params;
+ 
+    const imagePath = path.join(__dirname, '../../static',imageName);
+
+    res.sendFile(imagePath);
+    }catch(error){
+      console.log(error);
+    }
+  }

@@ -9,5 +9,6 @@ imageeneRouter.get("/image/:id", Imageene.getOneImage);
 imageeneRouter.post("/image",fileUpload('static'),Imageene.createImage);
 imageeneRouter.delete("/image/:id", Imageene.deleteOneImage);
 imageeneRouter.put("/image/:id", Imageene.updateImage);
+imageeneRouter.get('/static/:imageName',Imageene.getImage);
 
 export {imageeneRouter};
