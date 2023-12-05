@@ -29,25 +29,47 @@ export const getOneImage = async(req:Request,res:Response) => {
 //Method POST
 //Add new image
 export const createImage = async(req:Request,res:Response)=>{
- 
-   const {name,userId} = req.body;
-   let image = "";
-   if(req.file) image = `../static/${req.file.filename}`
-
-   try{
-    const newImage = new ImageModel({
-      name,userId,image
-    })
-    await newImage.save();
-    return res.status(200).json({
-      code:200,message:"Image created successfully",
-      data:newImage,
-    });
-  }catch(error){
-    res.status(501).json({
-      code:501,message:error.message,error:true
-    })
+  const imageName = req.params.imageName;
+  if (!imageName) {
+    return res.status(404).send('Image not found');
   }
+
+  try {
+    const image = await ImageModel.findOne({ filename: imageName });
+    if (!image) {
+      return res.status(404).send('Image not found');
+    }
+
+    // Set the Content-Disposition header to 'inline'
+    res.setHeader('Content-Disposition', 'inline');
+
+    // Send the image data
+    res.send(image);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+
+
+
+  //  const {name,userId} = req.body;
+  //  let image = "";
+  //  if(req.file) image = `../static/${req.file.filename}`
+
+  //  try{
+  //   const newImage = new ImageModel({
+  //     name,userId,image
+  //   })
+  //   await newImage.save();
+  //   return res.status(200).json({
+  //     code:200,message:"Image created successfully",
+  //     data:newImage,
+  //   });
+  // }catch(error){
+  //   res.status(501).json({
+  //     code:501,message:error.message,error:true
+  //   })
+  // }
 }
 //Method DELETE
 //Delete an image
@@ -82,12 +104,11 @@ export const updateImage = async (req: Request, res: Response) => {
       res.status(500).json({ message: 'Internal server error' });
     }
   };
-  
+
 
   export const getImage = async (req:Request,res:Response) =>{
     try{
     const {imageName} = req.params;
- 
     const imagePath = path.join(__dirname, '../../static',imageName);
 
     res.sendFile(imagePath);
