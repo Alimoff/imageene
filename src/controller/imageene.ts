@@ -72,7 +72,6 @@ export const deleteOneImage = async (req:Request,res:Response) =>{
 //Update an image
 export const updateImage = async (req: Request, res: Response) => {
   try {
-    const imageName = req.params.imageName;
     const { id } = req.params;
     const { name } = req.body;
 
@@ -83,7 +82,7 @@ export const updateImage = async (req: Request, res: Response) => {
     }
     // Update image name in the database
     updateImage.name = name;
-    updateImage.image = `../static/${name}`;
+    updateImage.image = `../static/${req.file?.filename}`;
 
     await updateImage.save();
 
