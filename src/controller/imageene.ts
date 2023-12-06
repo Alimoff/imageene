@@ -30,7 +30,7 @@ export const createImage = async(req:Request,res:Response)=>{
   const imageName = req.params.imageName;
    const {name,userId} = req.body;
    let image = "";
-   if(req.file) image = `../static/${req.file.filename}`
+   if(req.file) image = `${req.file.filename}`
    if (!imageName) {
    try{
     const newImage = new ImageModel({
@@ -82,7 +82,7 @@ export const updateImage = async (req: Request, res: Response) => {
     }
     // Update image name in the database
     updateImage.name = name;
-    updateImage.image = `../static/${req.file?.filename}`;
+    updateImage.image = `${req.file?.filename}`;
 
     await updateImage.save();
 
@@ -91,8 +91,6 @@ export const updateImage = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 };
-
-
 
   export const getImage = async (req:Request,res:Response) =>{
     try{
