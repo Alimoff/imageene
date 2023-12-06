@@ -31,10 +31,10 @@ export const registerNewUser = async (req: Request, res: Response) => {
       path: '/user/refresh_token',
       maxAge: 7 * 24 * 60 * 60 * 1000,
     })
-    res.json({ name,surname,email,accessToken,id:newUser._id });
+    res.status(200).json({ name,surname,email,accessToken,id:newUser._id });
     //@ts-ignore
   } catch ({ message }) {
-    return res.status(500).json({ msg: message })
+    return res.status(500).json({ message: message })
   }
 }
 //Method POST
@@ -58,7 +58,7 @@ export const loginUser = async (req: Request, res: Response) => {
       path: '/user/refresh_token',
       maxAge: 7 * 24 * 60 * 60 * 1000,
     })
-    res.json({ accessToken, user })
+    res.status(200).json({ accessToken, user })
     //@ts-ignore
   } catch ({ message }) {
     res.status(500).json({ accessToken: null })
