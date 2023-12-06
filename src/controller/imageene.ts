@@ -42,6 +42,7 @@ export const createImage = async(req:Request,res:Response)=>{
     return res.status(200).json({
       code:200,message:"Image created successfully",
       data:newImage,
+      userId:userId
     });
   }catch(error){
     res.status(501).json({
