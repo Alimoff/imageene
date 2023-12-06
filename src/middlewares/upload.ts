@@ -11,7 +11,7 @@ const storage = (destination:any) => multer.diskStorage({
 export const fileUpload  = (destination:any) =>multer({
  storage:storage(destination),
  limits:{
-  fileSize:2*1024*1024,
+  fileSize:20*1024*1024,
  },
  fileFilter:(req,file,cb) =>{
   if(file.mimetype == "image/png" || file.mimetype == "image/jpeg" || file.mimetype == "image/jpg" || file.mimetype == "image/heic"){

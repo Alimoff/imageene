@@ -30,46 +30,29 @@ export const getOneImage = async(req:Request,res:Response) => {
 //Add new image
 export const createImage = async(req:Request,res:Response)=>{
   const imageName = req.params.imageName;
-  if (!imageName) {
-    return res.status(404).send('Image not found');
+   const {name,userId} = req.body;
+   let image = "";
+   if(req.file) image = `../static/${req.file.filename}`
+   if (!imageName) {
+   try{
+    const newImage = new ImageModel({
+      name,userId,image
+    })
+    await newImage.save();
+    return res.status(200).json({
+      code:200,message:"Image created successfully",
+      data:newImage,
+    });
+  }catch(error){
+    res.status(501).json({
+      code:501,message:error.message,error:true
+    })
   }
-
-  try {
-    const image = await ImageModel.findOne({ filename: imageName });
-    if (!image) {
-      return res.status(404).send('Image not found');
-    }
-
-    // Set the Content-Disposition header to 'inline'
-    res.setHeader('Content-Disposition', 'inline');
-
-    // Send the image data
-    res.send(image);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
+  }else{
+    return res.status(501).json({
+      code:501,message:`Image ${imageName} is already have in DB`
+    })
   }
-
-
-
-  //  const {name,userId} = req.body;
-  //  let image = "";
-  //  if(req.file) image = `../static/${req.file.filename}`
-
-  //  try{
-  //   const newImage = new ImageModel({
-  //     name,userId,image
-  //   })
-  //   await newImage.save();
-  //   return res.status(200).json({
-  //     code:200,message:"Image created successfully",
-  //     data:newImage,
-  //   });
-  // }catch(error){
-  //   res.status(501).json({
-  //     code:501,message:error.message,error:true
-  //   })
-  // }
 }
 //Method DELETE
 //Delete an image
@@ -109,7 +92,11 @@ export const updateImage = async (req: Request, res: Response) => {
   export const getImage = async (req:Request,res:Response) =>{
     try{
     const {imageName} = req.params;
-    const imagePath = path.join(__dirname, '../../static',imageName);
+    const imagePath = path.join(__dirname, '../../static/',imageName);
+
+    res.setHeader('Content-Disposition', 'inline');
+    res.setHeader('Content-Type', 'image/jpeg'|| 'image/png' || 'image/jpg'); // Adjust the MIME type based on your image format
+
 
     res.sendFile(imagePath);
     }catch(error){
